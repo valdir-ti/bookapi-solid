@@ -7,6 +7,13 @@ export class LoginUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { username, password } = req.body;
 
+    if(!username || !password) {
+      return res.status(400).json({
+        message: "Invalid fields",
+      });
+    }
+
+
     try {
       const { token, userData } = await this.loginUserUseCase.execute({
         username,
