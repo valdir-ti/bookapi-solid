@@ -9,6 +9,6 @@ app.get("/", (req: Request, res: Response) => {
     res.status(200).json({ message: "Initial Route" });
 });
 
-app.use(authRouter);
+app.use("/auth", authRouter);
 
 export { app };
