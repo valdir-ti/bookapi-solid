@@ -7,6 +7,12 @@ export class CreateUserController {
   async handle(req: Request, res: Response): Promise<Response> {
     const { username, email, password, isAdmin } = req.body;
 
+    if(!username || !email || !password) {
+      return res.status(400).json({
+        message: "Invalid fields",
+      });
+    }
+
     try {
       await this.createUserUseCase.execute({
         username,
