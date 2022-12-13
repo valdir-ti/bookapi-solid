@@ -16,7 +16,7 @@ export class CreateUserController {
       });
       return res.status(201).send({
         message: "User created successfully",
-        username
+        username,
       });
     } catch (err) {
       return res.status(400).json({

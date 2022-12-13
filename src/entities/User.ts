@@ -1,4 +1,4 @@
-import { randomUUID } from "crypto";
+import { uuid as v4 } from "uuidv4";
 
 export class User {
   public readonly id: string;
@@ -12,7 +12,7 @@ export class User {
     Object.assign(this, props);
 
     if (!id) {
-      this.id = randomUUID();
+      this.id = v4();
     }
   }
 }
