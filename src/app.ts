@@ -1,12 +1,13 @@
-import express, {Request, Response} from "express";
+import express, { Request, Response } from "express";
 import { authRouter } from "./routes";
+import { verifyToken } from "./utils/verifyToken";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/", (req: Request, res: Response) => {
-    res.status(200).json({ message: "Initial Route" });
+app.get("/", verifyToken ,(req: Request, res: Response) => {
+  res.status(200).json({ message: "Initial Route" });
 });
 
 app.use("/auth", authRouter);
