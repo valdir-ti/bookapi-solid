@@ -25,3 +25,13 @@ export const verifyToken = (
       next();
     });
   };
+
+export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
+    verifyToken(req, res, () => {
+      if (req.user.id === req.params.id || req.user.isAdmin) {
+        next();
+      } else {
+        throw new Error("You are not authorized")
+      }
+    });
+};
