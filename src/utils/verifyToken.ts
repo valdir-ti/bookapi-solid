@@ -1,37 +1,36 @@
-import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { Request, Response, NextFunction } from "express"
+import jwt from "jsonwebtoken"
 
 export const verifyToken = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ) => {
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.headers.cookie) throw new Error("You are not authenticated")
 
-    if (!req.headers.cookie) throw new Error("You are not authenticated")
+  const token = req.headers.cookie.split("=")
+  const access_token = token[1]
 
-    const token = req.headers.cookie.split("=")
-    const access_token = token[1]
+  if (!access_token) throw new Error("You are not authenticated")
 
-    if (!access_token) throw new Error("You are not authenticated")
+  const secret = process.env.JWT_SECRET || "secretkey"
 
-    const secret = process.env.JWT_SECRET || "secretkey";
+  if (!access_token) throw new Error("You are not authenticated")
 
-    if (!access_token) throw new Error("You are not authenticated")
+  jwt.verify(access_token, secret, (err: any, user: any) => {
+    if (err) throw new Error("Invalid credentials")
 
-    jwt.verify(access_token, secret, (err: any, user: any) => {
-      if (err) throw new Error("Invalid credentials")
-
-      req.user = user;
-      next();
-    });
-  };
+    req.user = user
+    next()
+  })
+}
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
-    verifyToken(req, res, () => {
-      if (req.user.id === req.params.id || req.user.isAdmin) {
-        next();
-      } else {
-        throw new Error("You are not authorized")
-      }
-    });
-};
+  verifyToken(req, res, () => {
+    if (req.user.id === req.params.id || req.user.isAdmin) {
+      next()
+    } else {
+      throw new Error("You are not authorized")
+    }
+  })
+}

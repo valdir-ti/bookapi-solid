@@ -1,13 +1,13 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 
-const { Schema, model } = mongoose;
+const { Schema, model } = mongoose
 
 interface IUser {
-  username: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
-  id: string;
+  username: string
+  email: string
+  password: string
+  isAdmin: boolean
+  id: string
 }
 
 const userSchema = new Schema<IUser>(
@@ -31,12 +31,12 @@ const userSchema = new Schema<IUser>(
       default: false,
     },
     id: {
-      type: String
-    }
+      type: String,
+    },
   },
   {
     timestamps: true,
-  }
-);
+  },
+)
 
-export default model<IUser>("User", userSchema);
+export default model<IUser>("User", userSchema)
