@@ -1,9 +1,9 @@
-import { IMailProvider, IMessage } from "../IMailProvider";
-import nodemailer from "nodemailer";
-import Mail from "nodemailer/lib/mailer";
+import { IMailProvider, IMessage } from "../IMailProvider"
+import nodemailer from "nodemailer"
+import Mail from "nodemailer/lib/mailer"
 
 export class MailtrapMailProvider implements IMailProvider {
-  private transporter: Mail;
+  private transporter: Mail
 
   connect() {
     this.transporter = nodemailer.createTransport({
@@ -13,11 +13,11 @@ export class MailtrapMailProvider implements IMailProvider {
         user: process.env.MAIL_USER,
         pass: process.env.MAIL_PASS,
       },
-    });
+    })
   }
 
   async sendMail(message: IMessage): Promise<void> {
-    this.connect();
+    this.connect()
 
     await this.transporter.sendMail({
       to: {
@@ -30,6 +30,6 @@ export class MailtrapMailProvider implements IMailProvider {
       },
       subject: message.subject,
       html: message.body,
-    });
+    })
   }
 }

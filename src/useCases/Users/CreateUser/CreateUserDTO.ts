@@ -1,6 +1,6 @@
 export interface CreateUserRequestDTO {
-  username: string;
-  email: string;
-  password: string;
-  isAdmin: boolean;
+  username: string
+  email: string
+  password: string
+  isAdmin: boolean
 }
