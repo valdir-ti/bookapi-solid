@@ -2,7 +2,13 @@ import mongoose from "mongoose"
 
 const { Schema, model } = mongoose
 
-interface IUser {
+interface MongoResult {
+  _doc: any
+  $isNew: any
+  $__: any
+}
+
+interface IUser extends MongoResult {
   name: string
   cpf: string
   username: string

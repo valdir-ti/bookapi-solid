@@ -5,13 +5,16 @@ import bcrypt from "bcryptjs"
 
 export class MongoUsersProvider implements IUsersRepository {
   async findOne(username: string): Promise<any> {
-    const user = await MongoUsersUser.findOne({ username })
+    const user = await MongoUsersUser.findOne({ username: username })
 
     if (!user) {
       return null
     }
 
-    return user
+    const { $__, $isNew, ...rest } = user
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
   }
 
   async findByEmail(email: string): Promise<any> {
