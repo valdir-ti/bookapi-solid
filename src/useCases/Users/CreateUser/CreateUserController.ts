@@ -1,33 +1,29 @@
-import { Request, Response } from "express"
+import { User } from "../../../entities/User"
+import { badRequest, created, serverError } from "../../helpers"
+import { HttpRequest, HttpResponse, IController } from "../../protocols"
+import { CreateUserRequestDTO } from "./CreateUserDTO"
 import { CreateUserUseCase } from "./CreateUserUseCase"
 
-export class CreateUserController {
+export class CreateUserController implements IController {
   constructor(private createUserUseCase: CreateUserUseCase) {}
 
-  async handle(req: Request, res: Response): Promise<Response> {
-    const { username, email, password, isAdmin } = req.body
-
-    if (!username || !email || !password) {
-      return res.status(400).json({
-        message: "Invalid fields",
-      })
-    }
-
+  async handle(
+    httpRequest: HttpRequest<CreateUserRequestDTO>,
+  ): Promise<HttpResponse<User | string>> {
     try {
-      await this.createUserUseCase.execute({
-        username,
-        email,
-        password,
-        isAdmin,
-      })
-      return res.status(201).send({
-        message: "User created successfully",
-        username,
-      })
+      const requiredFields = ["username", "name", "email", "cpf", "password"]
+
+      for (const field of requiredFields) {
+        if (!httpRequest?.body?.[field]?.length) {
+          return badRequest(`Field ${field} is required`)
+        }
+      }
+
+      const createdUser = await this.createUserUseCase.execute(httpRequest.body)
+
+      return created<User>(createdUser)
     } catch (err) {
-      return res.status(400).json({
-        message: err.message || "Unexpected error",
-      })
+      serverError()
     }
   }
 }

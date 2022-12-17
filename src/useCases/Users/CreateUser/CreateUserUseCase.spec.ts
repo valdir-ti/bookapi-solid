@@ -1,5 +1,3 @@
-describe("Should sum", () => {
-  test("adds 1 + 2 to equal 3", () => {
-    expect(1 + 1).toBe(2)
-  })
+describe("Create User Use Case", () => {
+  test("should returns 400 if no username, or email, or password is provided", () => {})
 })
