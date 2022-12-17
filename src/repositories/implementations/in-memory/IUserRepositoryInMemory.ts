@@ -27,9 +27,10 @@ class IUserRepositoryInMemory implements IUsersRepository {
     return user
   }
 
-  async save(user: User): Promise<void> {
+  async save(user: User): Promise<User> {
     const newUser = new User(user)
     this.users.push(newUser)
+    return newUser
   }
 }
 
