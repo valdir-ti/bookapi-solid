@@ -1,12 +1,12 @@
 import express, { Request, Response } from "express"
 import { authRouter } from "./routes"
-import { verifyAdmin, verifyToken } from "./utils"
+import { verifyToken } from "./utils"
 
 const app = express()
 
 app.use(express.json())
 
-app.get("/", verifyToken, verifyAdmin, (req: Request, res: Response) => {
+app.get("/", verifyToken, (req: Request, res: Response) => {
   res.status(200).json({ message: "Initial Route" })
 })
 
