@@ -1,3 +1,4 @@
+import validator from "validator"
 import { User } from "../../../entities/User"
 import { badRequest, created, serverError } from "../../helpers"
 import { HttpRequest, HttpResponse, IController } from "../../protocols"
@@ -17,6 +18,11 @@ export class CreateUserController implements IController {
         if (!httpRequest?.body?.[field]?.length) {
           return badRequest(`Field ${field} is required`)
         }
+      }
+
+      const isEmail = validator.isEmail(httpRequest.body.email)
+      if (!isEmail) {
+        return badRequest("invalid email")
       }
 
       const createdUser = await this.createUserUseCase.execute(httpRequest.body)
