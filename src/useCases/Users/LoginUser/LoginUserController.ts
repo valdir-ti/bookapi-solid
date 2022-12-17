@@ -1,34 +1,32 @@
-import { Request, Response } from "express"
+import { badRequest, created, serverError } from "../../helpers"
+import { HttpRequest, HttpResponse, IController } from "../../protocols"
 import { LoginUserUseCase } from "./LoginUserUseCase"
+import {
+  LoginUserRequestDTO,
+  LoginUserResponseDTO,
+} from "./LoginUserRequestDTO"
 
-export class LoginUserController {
+export class LoginUserController implements IController {
   constructor(private loginUserUseCase: LoginUserUseCase) {}
 
-  async handle(req: Request, res: Response): Promise<Response> {
-    const { username, password } = req.body
-
-    if (!username || !password) {
-      return res.status(400).json({
-        message: "Invalid fields",
-      })
-    }
-
+  async handle(
+    httpRequest: HttpRequest<LoginUserRequestDTO>,
+  ): Promise<HttpResponse<any>> {
     try {
-      const { token, userData } = await this.loginUserUseCase.execute({
+      const { username, password } = httpRequest.body
+
+      if (!username || !password) {
+        return badRequest("invalid fields")
+      }
+
+      const login = await this.loginUserUseCase.execute({
         username,
         password,
       })
 
-      return res
-        .cookie("access_token", token, {
-          httpOnly: true,
-        })
-        .status(200)
-        .json(userData)
+      return created<LoginUserResponseDTO>(login)
     } catch (err) {
-      return res.status(400).json({
-        message: err.message || "Unexpected error",
-      })
+      serverError()
     }
   }
 }
