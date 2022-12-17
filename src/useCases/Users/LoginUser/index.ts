@@ -1,4 +1,4 @@
-import { MongoUsersProvider } from "../../../repositories/implementations/users/mongo/MongoUsersProvider"
+import { MongoUsersProvider } from "../../../repositories/implementations/mongo/users/MongoUsersProvider"
 import { LoginUserController } from "./LoginUserController"
 import { LoginUserUseCase } from "./LoginUserUseCase"
 

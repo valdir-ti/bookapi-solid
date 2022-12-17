@@ -1,12 +1,7 @@
 import mongoose from "mongoose"
+import { MongoResult } from "../IMongoResult"
 
 const { Schema, model } = mongoose
-
-interface MongoResult {
-  _doc: any
-  $isNew: any
-  $__: any
-}
 
 interface IUser extends MongoResult {
   name: string
