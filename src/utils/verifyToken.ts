@@ -6,31 +6,39 @@ export const verifyToken = (
   res: Response,
   next: NextFunction,
 ) => {
-  if (!req.headers.cookie) throw new Error("You are not authenticated")
+  try {
+    if (!req.headers.cookie) res.status(400).json("You are not authenticated")
 
-  const token = req.headers.cookie.split("=")
-  const access_token = token[1]
+    const token = req.headers.cookie.split("=")
+    const access_token = token[1]
 
-  if (!access_token) throw new Error("You are not authenticated")
+    if (!access_token) res.status(400).json("You are not authenticated")
 
-  const secret = process.env.JWT_SECRET || "secretkey"
+    const secret = process.env.JWT_SECRET || "secretkey"
 
-  if (!access_token) throw new Error("You are not authenticated")
+    if (!access_token) res.status(400).json("You are not authenticated")
 
-  jwt.verify(access_token, secret, (err: any, user: any) => {
-    if (err) throw new Error("Invalid credentials")
+    jwt.verify(access_token, secret, (err: any, user: any) => {
+      if (err) res.status(401).json("Invalid credentials")
 
-    req.user = user
-    next()
-  })
+      req.user = user
+      next()
+    })
+  } catch (error) {
+    return res.status(500).json("Something went wrong")
+  }
 }
 
 export const verifyUser = (req: Request, res: Response, next: NextFunction) => {
-  verifyToken(req, res, () => {
-    if (req.user.id === req.params.id || req.user.isAdmin) {
-      next()
-    } else {
-      throw new Error("You are not authorized")
-    }
-  })
+  try {
+    verifyToken(req, res, () => {
+      if (req.user.id === req.params.id || req.user.isAdmin) {
+        next()
+      } else {
+        res.status(401).json("You are not authorized")
+      }
+    })
+  } catch (error) {
+    return res.status(500).json("Something went wrong")
+  }
 }
