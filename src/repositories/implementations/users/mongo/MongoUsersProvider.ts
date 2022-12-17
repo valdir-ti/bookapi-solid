@@ -34,7 +34,7 @@ export class MongoUsersProvider implements IUsersRepository {
     return user
   }
 
-  async save(user: User): Promise<void> {
+  async save(user: User): Promise<User> {
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(user.password, salt)
 
@@ -42,6 +42,12 @@ export class MongoUsersProvider implements IUsersRepository {
 
     const newUser: any = new MongoUsersUser(newU)
 
-    await newUser.save()
+    const userCreated = await newUser.save()
+
+    const { $__, $isNew, ...rest } = userCreated
+    const { _id, __v, password, isAdmin, createdAt, updatedAt, ...others } =
+      rest._doc
+
+    return others
   }
 }
