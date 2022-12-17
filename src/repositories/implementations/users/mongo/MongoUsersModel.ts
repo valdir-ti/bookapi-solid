@@ -3,6 +3,8 @@ import mongoose from "mongoose"
 const { Schema, model } = mongoose
 
 interface IUser {
+  name: string
+  cpf: string
   username: string
   email: string
   password: string
@@ -12,6 +14,16 @@ interface IUser {
 
 const userSchema = new Schema<IUser>(
   {
+    name: {
+      type: String,
+      require: true,
+      unique: true,
+    },
+    cpf: {
+      type: String,
+      require: true,
+      unique: true,
+    },
     username: {
       type: String,
       require: true,
