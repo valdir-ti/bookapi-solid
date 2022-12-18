@@ -1,5 +1,5 @@
 import { User } from "../../../entities/User"
-import { IUsersRepository } from "../../IUsersRepository"
+import { IUsersRepository } from "../IUsersRepository"
 
 class IUserRepositoryInMemory implements IUsersRepository {
   users: User[] = [
