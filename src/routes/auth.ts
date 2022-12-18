@@ -1,14 +1,8 @@
 import { Router } from "express"
-import { createUsercontroller } from "../useCases/Users/CreateUser"
 import { loginUserController } from "../useCases/Users/LoginUser"
-import { verifyAdmin, verifyToken } from "../utils"
 
 const authRouter = Router()
 
-authRouter.post("/register", verifyToken, verifyAdmin, async (req, res) => {
-  const { statusCode, body } = await createUsercontroller.handle(req)
-  return res.status(statusCode).json(body)
-})
 authRouter.post("/login", async (req, res) => {
   const { body, statusCode } = await loginUserController.handle(req)
 
