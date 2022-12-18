@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
-import { IUsersRepository } from "../../../repositories/IUsersRepository"
+import { IUsersRepository } from "../../../repositories/implementations/IUsersRepository"
 import { badRequest } from "../../helpers"
 import { LoginUserRequestDTO } from "./LoginUserRequestDTO"
 

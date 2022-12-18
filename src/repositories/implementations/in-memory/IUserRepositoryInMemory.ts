@@ -1,5 +1,5 @@
 import { User } from "../../../entities/User"
-import { IUsersRepository } from "../../IUsersRepository"
+import { IUsersRepository } from "../IUsersRepository"
 
 class IUserRepositoryInMemory implements IUsersRepository {
   users: User[] = [
@@ -27,9 +27,10 @@ class IUserRepositoryInMemory implements IUsersRepository {
     return user
   }
 
-  async save(user: User): Promise<void> {
+  async save(user: User): Promise<User> {
     const newUser = new User(user)
     this.users.push(newUser)
+    return newUser
   }
 }
 

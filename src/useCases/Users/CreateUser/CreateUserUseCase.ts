@@ -1,6 +1,6 @@
 import { User } from "../../../entities/User"
 import { IMailProvider } from "../../../providers/IMailProvider"
-import { IUsersRepository } from "../../../repositories/IUsersRepository"
+import { IUsersRepository } from "../../../repositories/implementations/IUsersRepository"
 import { badRequest } from "../../helpers"
 import { CreateUserRequestDTO } from "./CreateUserDTO"
 
