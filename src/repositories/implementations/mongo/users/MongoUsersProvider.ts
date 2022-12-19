@@ -4,8 +4,8 @@ import { IUsersRepository } from "../../IUsersRepository"
 import bcrypt from "bcryptjs"
 
 export class MongoUsersProvider implements IUsersRepository {
-  async findOne(username: string): Promise<any> {
-    const user = await MongoUsersUser.findOne({ username: username })
+  async findOne(username: string): Promise<User> {
+    const user = await MongoUsersUser.findOne({ username })
 
     if (!user) {
       return null
@@ -47,10 +47,18 @@ export class MongoUsersProvider implements IUsersRepository {
 
     const userCreated = await newUser.save()
 
-    const { $__, $isNew, ...rest } = userCreated
-    const { _id, __v, password, isAdmin, createdAt, updatedAt, ...others } =
-      rest._doc
+    const {
+      __v,
+      $__,
+      $errors,
+      $isNew,
+      _id,
+      createdAt,
+      updatedAt,
+      password,
+      ...rest
+    } = userCreated._doc
 
-    return others
+    return rest
   }
 }
