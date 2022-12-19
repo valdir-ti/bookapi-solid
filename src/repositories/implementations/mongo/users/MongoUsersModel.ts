@@ -4,8 +4,6 @@ import { MongoResult } from "../IMongoResult"
 const { Schema, model } = mongoose
 
 interface IUser extends MongoResult {
-  name: string
-  cpf: string
   username: string
   email: string
   password: string
@@ -15,16 +13,6 @@ interface IUser extends MongoResult {
 
 const userSchema = new Schema<IUser>(
   {
-    name: {
-      type: String,
-      require: true,
-      unique: true,
-    },
-    cpf: {
-      type: String,
-      require: true,
-      unique: true,
-    },
     username: {
       type: String,
       require: true,
