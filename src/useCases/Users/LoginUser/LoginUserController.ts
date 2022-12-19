@@ -13,16 +13,15 @@ export class LoginUserController implements IController {
     httpRequest: HttpRequest<LoginUserRequestDTO>,
   ): Promise<HttpResponse<any>> {
     try {
-      const { username, password } = httpRequest.body
+      const requiredFields = ["username", "password"]
 
-      if (!username || !password) {
-        return badRequest("invalid fields")
+      for (const field of requiredFields) {
+        if (!httpRequest?.body?.[field]) {
+          return badRequest(`Field ${field} is required`)
+        }
       }
 
-      const login = await this.loginUserUseCase.execute({
-        username,
-        password,
-      })
+      const login = await this.loginUserUseCase.execute(httpRequest.body)
 
       return created<LoginUserResponseDTO>(login)
     } catch (err) {

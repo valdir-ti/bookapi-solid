@@ -5,8 +5,8 @@ import { loginUserController } from "../useCases/Users/LoginUser"
 const authRouter = Router()
 
 authRouter.post("/register", async (req, res) => {
-  const user = await createUserController.handle(req, res)
-  return res.send(user)
+  const { statusCode, body } = await createUserController.handle(req)
+  return res.status(statusCode).json(body)
 })
 authRouter.post("/login", async (req, res) => {
   const resp = await loginUserController.handle(req)

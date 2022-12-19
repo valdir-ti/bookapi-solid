@@ -1,6 +1,7 @@
 import { User } from "../../../entities/User"
 import { IMailProvider } from "../../../providers/IMailProvider"
 import { IUsersRepository } from "../../../repositories/implementations/IUsersRepository"
+import { badRequest, created } from "../../helpers"
 import { CreateUserRequestDTO } from "./CreateUserDTO"
 
 export class CreateUserUseCase {
@@ -15,13 +16,13 @@ export class CreateUserUseCase {
     )
 
     if (usernameAlreadyExists) {
-      throw new Error("Username or email already in use")
+      return badRequest("Username or email already in use")
     }
 
     const userAlreadyExists = await this.usersRepository.findByEmail(data.email)
 
     if (userAlreadyExists) {
-      throw new Error("Username or email already in use")
+      return badRequest("Username or email already in use")
     }
 
     const user = new User(data)
@@ -41,6 +42,6 @@ export class CreateUserUseCase {
       body: "<p>Você já pode acessar a nossa plataforma</p>",
     })
 
-    return userCreated
+    return created<User>(userCreated)
   }
 }

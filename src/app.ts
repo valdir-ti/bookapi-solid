@@ -1,5 +1,5 @@
 import express, { Request, Response } from "express"
-import { authRouter, hotelsRouter } from "./routes"
+import { authRouter, hotelsRouter, roomsRouter } from "./routes"
 import { verifyToken } from "./utils"
 
 const app = express()
@@ -12,5 +12,6 @@ app.get("/", verifyToken, (req: Request, res: Response) => {
 
 app.use("/auth", authRouter)
 app.use("/hotels", hotelsRouter)
+app.use("/rooms", roomsRouter)
 
 export { app }
