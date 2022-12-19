@@ -14,7 +14,7 @@ export class CreateHotelController implements IController {
       const requiredFields = ["name", "type", "city"]
 
       for (const field of requiredFields) {
-        if (!httpRequest?.body?.[field]?.length) {
+        if (!httpRequest?.body?.[field]) {
           return badRequest(`Field ${field} is required`)
         }
       }

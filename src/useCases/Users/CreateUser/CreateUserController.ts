@@ -1,5 +1,5 @@
 import { User } from "../../../entities/User"
-import { badRequest, created, serverError } from "../../helpers"
+import { badRequest, serverError } from "../../helpers"
 import { HttpRequest, HttpResponse } from "../../protocols"
 import { CreateUserRequestDTO } from "./CreateUserDTO"
 import { CreateUserUseCase } from "./CreateUserUseCase"
@@ -14,7 +14,7 @@ export class CreateUserController {
       const requiredFields = ["username", "email", "password"]
 
       for (const field of requiredFields) {
-        if (!httpRequest?.body?.[field]?.length) {
+        if (!httpRequest?.body?.[field]) {
           return badRequest(`Field ${field} is required`)
         }
       }
