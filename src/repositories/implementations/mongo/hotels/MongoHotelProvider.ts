@@ -14,8 +14,7 @@ export class MongoHotelProvider implements IHotelsRepository {
     const savedHotel = await newHotel.save()
 
     const { $__, $isNew, ...rest } = savedHotel
-    const { _id, __v, password, isAdmin, createdAt, updatedAt, ...others } =
-      rest._doc
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
 
     return others
   }
