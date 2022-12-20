@@ -6,7 +6,7 @@ const hotelsRouter = Router()
 
 hotelsRouter.post("/", verifyToken, verifyAdmin, async (req, res) => {
   const { statusCode, body } = await createHotelController.handle(req)
-  res.status(statusCode).json(body)
+  return res.status(statusCode).json(body)
 })
 
 export { hotelsRouter }
