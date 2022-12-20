@@ -1,11 +1,11 @@
-import MongoUsersUser from "./MongoUsersModel"
+import MongoUsersModel from "./MongoUsersModel"
 import { User } from "../../../../entities/User"
 import { IUsersRepository } from "../../IUsersRepository"
 import bcrypt from "bcryptjs"
 
 export class MongoUsersProvider implements IUsersRepository {
   async findOne(username: string): Promise<User> {
-    const user = await MongoUsersUser.findOne({ username })
+    const user = await MongoUsersModel.findOne({ username })
 
     if (!user) {
       return null
@@ -18,7 +18,7 @@ export class MongoUsersProvider implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<any> {
-    const user = await MongoUsersUser.find({ email })
+    const user = await MongoUsersModel.find({ email })
 
     if (user.length === 0) {
       return null
@@ -28,7 +28,7 @@ export class MongoUsersProvider implements IUsersRepository {
   }
 
   async findByUserName(username: string): Promise<any> {
-    const user = await MongoUsersUser.find({ username })
+    const user = await MongoUsersModel.find({ username })
 
     if (user.length === 0) {
       return null
@@ -43,7 +43,7 @@ export class MongoUsersProvider implements IUsersRepository {
 
     const newU = { ...user, id: user.id, password: hash }
 
-    const newUser: any = new MongoUsersUser(newU)
+    const newUser: any = new MongoUsersModel(newU)
 
     const userCreated = await newUser.save()
 
