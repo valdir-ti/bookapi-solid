@@ -18,7 +18,16 @@ export class MongoRoomProvider implements IRoomRepository {
   }
 
   async findById(id: string): Promise<Room> {
-    throw new Error("Method not implemented.")
+    const room = await MongoRoomModel.findOne({ id })
+
+    if (!room) {
+      return null
+    }
+
+    const { $__, $isNew, ...rest } = room
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
   }
 
   async save(hotelId: string, room: Room): Promise<Room> {

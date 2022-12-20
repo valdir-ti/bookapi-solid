@@ -9,6 +9,7 @@ authRouter.post("/register", verifyToken, verifyAdmin, async (req, res) => {
   const { statusCode, body } = await createUserController.handle(req)
   return res.status(statusCode).json(body)
 })
+
 authRouter.post("/login", async (req, res) => {
   const resp = await loginUserController.handle(req)
   return res
