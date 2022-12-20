@@ -30,7 +30,7 @@ const roomSchema = new Schema<IRoom>(
       type: String,
       require: true,
     },
-    roomNumbers: [],
+    roomNumbers: [{ number: Number, unavailableDates: { type: [Date] } }],
     id: {
       type: String,
       required: false,
