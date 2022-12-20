@@ -6,7 +6,7 @@ const roomsRouter = Router()
 
 roomsRouter.post("/:hotelId", verifyToken, verifyAdmin, async (req, res) => {
   const { statusCode, body } = await createRoomController.handle(req)
-  res.status(statusCode).json(body)
+  return res.status(statusCode).json(body)
 })
 
 export { roomsRouter }
