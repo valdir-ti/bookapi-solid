@@ -9,5 +9,7 @@ export interface IUsersRepository {
 
   find(): Promise<User[]>
 
+  findById(id: string): Promise<User>
+
   save(user: User): Promise<User>
 }
