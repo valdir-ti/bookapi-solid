@@ -3,9 +3,24 @@ import { IRoomRepository } from "../../IRoomRepository"
 import MongoRoomModel from "./MongoRoomModel"
 
 export class MongoRoomProvider implements IRoomRepository {
+  async find(): Promise<Room[]> {
+    const rooms = await MongoRoomModel.find()
+    const roomsList = []
+
+    rooms.map(room => {
+      const { __v, $__, $errors, $isNew, _id, createdAt, updatedAt, ...rest } =
+        room._doc
+
+      roomsList.push(rest)
+    })
+
+    return roomsList
+  }
+
   async findById(id: string): Promise<Room> {
     throw new Error("Method not implemented.")
   }
+
   async save(hotelId: string, room: Room): Promise<Room> {
     const newU = { ...room, id: room.id }
 
