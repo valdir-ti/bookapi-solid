@@ -7,5 +7,7 @@ export interface IUsersRepository {
 
   findOne(username: string): Promise<User>
 
+  find(): Promise<User[]>
+
   save(user: User): Promise<User>
 }
