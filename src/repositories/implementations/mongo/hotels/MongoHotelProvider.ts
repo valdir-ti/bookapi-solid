@@ -3,6 +3,20 @@ import { IHotelsRepository } from "../../IHotelRepository"
 import { Hotel } from "../../../../entities/Hotel"
 
 export class MongoHotelProvider implements IHotelsRepository {
+  async find(): Promise<Hotel[]> {
+    const hotels = await MongoHotelModel.find()
+    const hotelsList = []
+
+    hotels.map(hotel => {
+      const { __v, $__, $errors, $isNew, _id, createdAt, updatedAt, ...rest } =
+        hotel._doc
+
+      hotelsList.push(rest)
+    })
+
+    return hotelsList
+  }
+
   async findOneAndUpdate(
     hotelId: string,
     savedRoomId: string,
