@@ -5,5 +5,7 @@ export interface IHotelsRepository {
 
   findOneAndUpdate(hotelId: string, roomSavedId: string): Promise<unknown>
 
+  find(): Promise<Hotel[]>
+
   save(hotel: Hotel): Promise<Hotel>
 }
