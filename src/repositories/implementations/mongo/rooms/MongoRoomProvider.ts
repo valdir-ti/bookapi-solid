@@ -1,8 +1,23 @@
 import { Room } from "../../../../entities/Room"
 import { IRoomRepository } from "../../IRoomRepository"
+import MongoHotelModel from "../hotels/MongoHotelModel"
 import MongoRoomModel from "./MongoRoomModel"
 
 export class MongoRoomProvider implements IRoomRepository {
+  async delete(id: string): Promise<unknown> {
+    const deleted = await MongoRoomModel.deleteOne({ id })
+
+    if (deleted.deletedCount > 0) {
+      const hotelRoom = await MongoHotelModel.findOne({ rooms: id })
+
+      const roomsFiltered = hotelRoom.rooms.filter(room => room !== id)
+
+      await MongoHotelModel.updateOne({ rooms: roomsFiltered })
+    }
+
+    return
+  }
+
   async find(): Promise<Room[]> {
     const rooms = await MongoRoomModel.find()
     const roomsList = []

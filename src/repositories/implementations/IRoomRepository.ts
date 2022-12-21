@@ -5,5 +5,7 @@ export interface IRoomRepository {
 
   find(): Promise<Room[]>
 
+  delete(id: string): Promise<unknown>
+
   save(hotelId: string, room: Room): Promise<Room>
 }
