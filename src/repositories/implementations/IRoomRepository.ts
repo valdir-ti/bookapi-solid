@@ -8,4 +8,6 @@ export interface IRoomRepository {
   delete(id: string): Promise<unknown>
 
   save(hotelId: string, room: Room): Promise<Room>
+
+  update(id: string, room: Room): Promise<Room>
 }
