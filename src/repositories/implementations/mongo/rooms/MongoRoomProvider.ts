@@ -48,6 +48,12 @@ export class MongoRoomProvider implements IRoomRepository {
   async save(hotelId: string, room: Room): Promise<Room> {
     const newU = { ...room, id: room.id }
 
+    const hotelFounded = await MongoHotelModel.findOne({ id: hotelId })
+
+    if (!hotelFounded) {
+      return null
+    }
+
     const newRoom = new MongoRoomModel(newU)
 
     const savedRoom = await newRoom.save()

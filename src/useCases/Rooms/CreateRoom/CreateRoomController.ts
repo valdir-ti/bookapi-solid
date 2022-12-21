@@ -25,6 +25,10 @@ export class CreateRoomController implements IController {
         httpRequest.body,
       )
 
+      if (!createdRoom) {
+        return badRequest("A room must be associated with a hotel")
+      }
+
       return created<Room>(createdRoom)
     } catch (error) {
       serverError()
