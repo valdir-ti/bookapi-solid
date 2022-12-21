@@ -11,5 +11,7 @@ export interface IUsersRepository {
 
   findById(id: string): Promise<User>
 
+  delete(id: string): Promise<unknown>
+
   save(user: User): Promise<User>
 }

@@ -17,7 +17,7 @@ hotelsRouter.get("/:id", verifyToken, async (req, res) => {
   return res.status(statusCode).json(body)
 })
 
-hotelsRouter.delete("/:id", verifyToken, async (req, res) => {
+hotelsRouter.delete("/:id", verifyToken, verifyAdmin, async (req, res) => {
   const { statusCode, body } = await deleteHotelController.handle(req)
   return res.status(statusCode).json(body)
 })

@@ -4,6 +4,18 @@ import { IUsersRepository } from "../../IUsersRepository"
 import bcrypt from "bcryptjs"
 
 export class MongoUsersProvider implements IUsersRepository {
+  async delete(id: string): Promise<unknown> {
+    const user = await MongoUsersModel.findOne({ id })
+
+    if (!user) {
+      return null
+    }
+
+    const deleted = await MongoUsersModel.deleteOne({ id })
+
+    return deleted
+  }
+
   async findById(id: string): Promise<User> {
     const user = await MongoUsersModel.findOne({ id })
 
