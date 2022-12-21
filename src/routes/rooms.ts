@@ -1,5 +1,6 @@
 import { Router } from "express"
 import { createRoomController } from "../useCases/Rooms/CreateRoom"
+import { deleteRoomController } from "../useCases/Rooms/DeleteRoom"
 import { getRoomController } from "../useCases/Rooms/GetRoom"
 import { listRoomsController } from "../useCases/Rooms/ListRooms"
 import { verifyAdmin, verifyToken } from "../utils"
@@ -13,6 +14,11 @@ roomsRouter.get("/", verifyToken, async (req, res) => {
 
 roomsRouter.get("/:id", verifyToken, async (req, res) => {
   const { statusCode, body } = await getRoomController.handle(req)
+  return res.status(statusCode).json(body)
+})
+
+roomsRouter.delete("/:id", verifyToken, verifyAdmin, async (req, res) => {
+  const { statusCode, body } = await deleteRoomController.handle(req)
   return res.status(statusCode).json(body)
 })
 
