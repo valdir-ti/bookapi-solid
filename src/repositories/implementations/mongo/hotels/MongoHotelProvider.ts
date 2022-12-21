@@ -17,9 +17,9 @@ export class MongoHotelProvider implements IHotelsRepository {
       })
     }
 
-    await hotelFounded.deleteOne({ id })
+    const deleted = await hotelFounded.deleteOne({ id })
 
-    return
+    return deleted
   }
 
   async find(): Promise<Hotel[]> {

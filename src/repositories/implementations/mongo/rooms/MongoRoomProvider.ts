@@ -21,7 +21,7 @@ export class MongoRoomProvider implements IRoomRepository {
       await MongoHotelModel.updateOne({ rooms: roomsFiltered })
     }
 
-    return
+    return deleted
   }
 
   async find(): Promise<Room[]> {
