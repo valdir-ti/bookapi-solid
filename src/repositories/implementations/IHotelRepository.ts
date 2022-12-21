@@ -7,5 +7,7 @@ export interface IHotelsRepository {
 
   find(): Promise<Hotel[]>
 
+  delete(id: string): Promise<unknown>
+
   save(hotel: Hotel): Promise<Hotel>
 }
