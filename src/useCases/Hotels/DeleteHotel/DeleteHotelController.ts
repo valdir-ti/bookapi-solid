@@ -1,20 +1,19 @@
 import { badRequest, ok, serverError } from "../../helpers"
 import { HttpRequest, HttpResponse, IController } from "../../protocols"
-import { DeleteRoomUseCase } from "./DeleteRoomUseCase"
+import { DeleteHotelUseCase } from "./DeleteHotelUseCase"
 
-export class DeleteRoomController implements IController {
-  constructor(private deleteRoomUseCase: DeleteRoomUseCase) {}
-
+export class DeleteHotelController implements IController {
+  constructor(private deleteHotelUseCase: DeleteHotelUseCase) {}
   async handle(
     httpRequest: HttpRequest<unknown>,
   ): Promise<HttpResponse<unknown>> {
     try {
-      const deleted = await this.deleteRoomUseCase.execute(
+      const deleted = await this.deleteHotelUseCase.execute(
         httpRequest.params.id,
       )
 
       if (!deleted) {
-        return badRequest("fail to delete the room")
+        return badRequest("fail to delete the hotel")
       }
 
       return ok<unknown>(deleted)

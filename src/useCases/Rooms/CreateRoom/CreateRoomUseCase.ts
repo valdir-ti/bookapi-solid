@@ -14,6 +14,10 @@ export class CreateRoomUseCase {
 
     const roomSaved = await this.roomRepository.save(hotelId, newRoom)
 
+    if (!roomSaved) {
+      return null
+    }
+
     await this.hotelRepository.findOneAndUpdate(hotelId, roomSaved.id)
 
     return roomSaved

@@ -5,6 +5,12 @@ import MongoRoomModel from "./MongoRoomModel"
 
 export class MongoRoomProvider implements IRoomRepository {
   async delete(id: string): Promise<unknown> {
+    const foundRoom = await MongoRoomModel.findOne({ id })
+
+    if (!foundRoom) {
+      return null
+    }
+
     const deleted = await MongoRoomModel.deleteOne({ id })
 
     if (deleted.deletedCount > 0) {
@@ -47,6 +53,12 @@ export class MongoRoomProvider implements IRoomRepository {
 
   async save(hotelId: string, room: Room): Promise<Room> {
     const newU = { ...room, id: room.id }
+
+    const hotelFounded = await MongoHotelModel.findOne({ id: hotelId })
+
+    if (!hotelFounded) {
+      return null
+    }
 
     const newRoom = new MongoRoomModel(newU)
 
