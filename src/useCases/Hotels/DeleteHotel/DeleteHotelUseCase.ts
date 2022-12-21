@@ -2,8 +2,9 @@ import { IHotelsRepository } from "../../../repositories/implementations/IHotelR
 
 export class DeleteHotelUseCase {
   constructor(private hotelRepository: IHotelsRepository) {}
-  execute(id: string) {
-    const deleted = this.hotelRepository.delete(id)
+  async execute(id: string) {
+    const deleted = await this.hotelRepository.delete(id)
+
     return deleted
   }
 }

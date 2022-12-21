@@ -7,6 +7,10 @@ export class MongoHotelProvider implements IHotelsRepository {
   async delete(id: string): Promise<unknown> {
     const hotelFounded = await MongoHotelModel.findOne({ id })
 
+    if (!hotelFounded) {
+      return null
+    }
+
     if (hotelFounded.rooms.length > 0) {
       hotelFounded.rooms.forEach(async room => {
         await MongoRoomModel.deleteOne({ id: room })

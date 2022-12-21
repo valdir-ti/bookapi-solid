@@ -5,6 +5,12 @@ import MongoRoomModel from "./MongoRoomModel"
 
 export class MongoRoomProvider implements IRoomRepository {
   async delete(id: string): Promise<unknown> {
+    const foundRoom = await MongoRoomModel.findOne({ id })
+
+    if (!foundRoom) {
+      return null
+    }
+
     const deleted = await MongoRoomModel.deleteOne({ id })
 
     if (deleted.deletedCount > 0) {
