@@ -4,6 +4,31 @@ import MongoHotelModel from "../hotels/MongoHotelModel"
 import MongoRoomModel from "./MongoRoomModel"
 
 export class MongoRoomProvider implements IRoomRepository {
+  async update(id: string, room: Room): Promise<Room> {
+    const foundRoom = await MongoRoomModel.findOne({ id })
+
+    if (!foundRoom) {
+      return null
+    }
+
+    const updated = await MongoRoomModel.findOneAndUpdate(
+      { id: id },
+      {
+        title: room.title,
+        desc: room.desc,
+        price: room.price,
+        maxPeople: room.maxPeople,
+        roomNumbers: room.roomNumbers,
+      },
+      { returnOriginal: false },
+    )
+
+    const { $__, $isNew, ...rest } = updated
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
+  }
+
   async delete(id: string): Promise<unknown> {
     const foundRoom = await MongoRoomModel.findOne({ id })
 
