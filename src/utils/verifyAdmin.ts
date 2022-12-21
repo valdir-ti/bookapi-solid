@@ -11,10 +11,10 @@ export const verifyAdmin = (
       if (req.user.isAdmin) {
         next()
       } else {
-        res.status(401).json("You are not admin")
+        return res.status(401).json("You are not admin")
       }
     })
   } catch (error) {
-    res.status(500).json("Something went wrong")
+    return res.status(500).json("Something went wrong")
   }
 }

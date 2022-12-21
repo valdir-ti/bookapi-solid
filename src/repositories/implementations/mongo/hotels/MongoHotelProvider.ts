@@ -31,7 +31,16 @@ export class MongoHotelProvider implements IHotelsRepository {
   }
 
   async findById(id: string): Promise<Hotel> {
-    throw new Error("Method not implemented.")
+    const hotel = await MongoHotelModel.findOne({ id })
+
+    if (!hotel) {
+      return null
+    }
+
+    const { $__, $isNew, ...rest } = hotel
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
   }
 
   async save(hotel: Hotel): Promise<Hotel> {
