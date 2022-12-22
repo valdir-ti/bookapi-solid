@@ -11,17 +11,14 @@ export class MongoRoomProvider implements IRoomRepository {
       return null
     }
 
-    const updated = await MongoRoomModel.findOneAndUpdate(
-      { id: id },
-      {
-        title: room.title,
-        desc: room.desc,
-        price: room.price,
-        maxPeople: room.maxPeople,
-        roomNumbers: room.roomNumbers,
-      },
-      { returnOriginal: false },
-    )
+    const obj = {}
+    for (const key in room) {
+      obj[key] = room[key]
+    }
+
+    const updated = await MongoRoomModel.findOneAndUpdate({ id: id }, obj, {
+      returnOriginal: false,
+    })
 
     const { $__, $isNew, ...rest } = updated
     const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
