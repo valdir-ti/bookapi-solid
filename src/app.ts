@@ -1,9 +1,11 @@
 import express, { Request, Response } from "express"
+import cors from "cors"
 import { authRouter, hotelsRouter, roomsRouter, usersRouter } from "./routes"
 import { verifyToken } from "./utils"
 
 const app = express()
 
+app.use(cors())
 app.use(express.json())
 
 app.get("/", verifyToken, (req: Request, res: Response) => {
