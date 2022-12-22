@@ -23,7 +23,9 @@ export class LoginUserUseCase {
 
     const secret = process.env.JWT_SECRET || "secretkey"
 
-    const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, secret)
+    const token = jwt.sign({ id: user.id, isAdmin: user.isAdmin }, secret, {
+      expiresIn: "1d",
+    })
 
     const userData = {
       id: user.id,
