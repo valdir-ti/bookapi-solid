@@ -12,4 +12,8 @@ export interface IHotelsRepository {
   save(hotel: Hotel): Promise<Hotel>
 
   update(id: string, room: Hotel): Promise<Hotel>
+
+  countByCityName(cities: Array<string>): Promise<Array<number>>
+
+  countByType(type: string): Promise<number>
 }

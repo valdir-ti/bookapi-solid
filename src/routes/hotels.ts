@@ -1,4 +1,5 @@
 import { Router } from "express"
+import { countByCityNameController } from "../useCases/Hotels/CountByCityName"
 import { createHotelController } from "../useCases/Hotels/CreateHotel"
 import { deleteHotelController } from "../useCases/Hotels/DeleteHotel"
 import { getHotelController } from "../useCases/Hotels/GetHotel"
@@ -10,6 +11,11 @@ const hotelsRouter = Router()
 
 hotelsRouter.get("/", verifyToken, async (req, res) => {
   const { statusCode, body } = await listHotelsController.handle()
+  return res.status(statusCode).json(body)
+})
+
+hotelsRouter.get("/countByCityName", async (req, res) => {
+  const { statusCode, body } = await countByCityNameController.handle(req)
   return res.status(statusCode).json(body)
 })
 
