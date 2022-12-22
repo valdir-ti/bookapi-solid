@@ -85,6 +85,32 @@ export class MongoUsersProvider implements IUsersRepository {
     return userList
   }
 
+  async update(id: string, user: User): Promise<User> {
+    if (user.email) {
+      return null
+    }
+
+    const foundUser = await MongoUsersModel.findOne({ id })
+
+    if (!foundUser) {
+      return null
+    }
+
+    const obj = {}
+    for (const key in user) {
+      obj[key] = user[key]
+    }
+
+    const updated = await MongoUsersModel.findOneAndUpdate({ id: id }, obj, {
+      returnOriginal: false,
+    })
+
+    const { $__, $isNew, ...rest } = updated
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
+  }
+
   async save(user: User): Promise<User> {
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(user.password, salt)

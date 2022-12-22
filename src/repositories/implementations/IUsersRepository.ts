@@ -1,4 +1,5 @@
 import { User } from "../../entities/User"
+import { UpdateUserRequestDTO } from "../../useCases/Users/UpdateUser/UpdateUserRequestDTO"
 
 export interface IUsersRepository {
   findByEmail(email: string): Promise<User>
@@ -14,4 +15,6 @@ export interface IUsersRepository {
   delete(id: string): Promise<unknown>
 
   save(user: User): Promise<User>
+
+  update(id: string, user: UpdateUserRequestDTO): Promise<User>
 }
