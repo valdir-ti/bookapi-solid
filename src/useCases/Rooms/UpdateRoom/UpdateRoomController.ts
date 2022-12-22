@@ -6,7 +6,9 @@ import { UpdateRoomUseCase } from "./UpdateRoomUseCase"
 export class UpdateRoomController implements IController {
   constructor(private updateRoomUseCase: UpdateRoomUseCase) {}
 
-  async handle(httpRequest: HttpRequest<Room>): Promise<HttpResponse<unknown>> {
+  async handle(
+    httpRequest: HttpRequest<Room>,
+  ): Promise<HttpResponse<Room | string>> {
     try {
       const updated = await this.updateRoomUseCase.execute(
         httpRequest.params.id,
@@ -17,7 +19,7 @@ export class UpdateRoomController implements IController {
         return badRequest("fail to update room")
       }
 
-      return ok<unknown>(updated)
+      return ok<Room>(updated)
     } catch (error) {
       return serverError()
     }
