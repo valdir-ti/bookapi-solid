@@ -2,6 +2,7 @@ import { Router } from "express"
 import { deleteUserController } from "../useCases/Users/DeleteUser"
 import { getUserController } from "../useCases/Users/GetUser"
 import { listUsersController } from "../useCases/Users/ListUsers"
+import { updateUserController } from "../useCases/Users/UpdateUser"
 import { verifyAdmin, verifyToken } from "../utils"
 
 const usersRouter = Router()
@@ -13,6 +14,11 @@ usersRouter.get("/", verifyToken, async (req, res) => {
 
 usersRouter.get("/:id", verifyToken, async (req, res) => {
   const { statusCode, body } = await getUserController.handle(req)
+  return res.status(statusCode).json(body)
+})
+
+usersRouter.patch("/:id", verifyToken, async (req, res) => {
+  const { statusCode, body } = await updateUserController.handle(req)
   return res.status(statusCode).json(body)
 })
 
