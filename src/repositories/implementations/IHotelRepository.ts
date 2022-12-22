@@ -10,4 +10,6 @@ export interface IHotelsRepository {
   delete(id: string): Promise<unknown>
 
   save(hotel: Hotel): Promise<Hotel>
+
+  update(id: string, room: Hotel): Promise<Hotel>
 }

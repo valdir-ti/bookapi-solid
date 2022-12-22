@@ -62,6 +62,28 @@ export class MongoHotelProvider implements IHotelsRepository {
     return others
   }
 
+  async update(id: string, hotel: Hotel): Promise<Hotel> {
+    const foundHotel = await MongoHotelModel.findOne({ id })
+
+    if (!foundHotel) {
+      return null
+    }
+
+    const obj = {}
+    for (const key in hotel) {
+      obj[key] = hotel[key]
+    }
+
+    const updated = await MongoHotelModel.findOneAndUpdate({ id: id }, obj, {
+      returnOriginal: false,
+    })
+
+    const { $__, $isNew, ...rest } = updated
+    const { _id, __v, createdAt, updatedAt, ...others } = rest._doc
+
+    return others
+  }
+
   async save(hotel: Hotel): Promise<Hotel> {
     const newU = { ...hotel, id: hotel.id }
 
