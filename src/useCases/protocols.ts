@@ -7,6 +7,7 @@ export interface HttpRequest<B> {
   params?: any
   headers?: any
   body?: B
+  query?: any
 }
 
 export enum HttpStatusCode {

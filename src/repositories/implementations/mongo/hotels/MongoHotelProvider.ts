@@ -4,6 +4,24 @@ import { Hotel } from "../../../../entities/Hotel"
 import MongoRoomModel from "../rooms/MongoRoomModel"
 
 export class MongoHotelProvider implements IHotelsRepository {
+  async countByCityName(cities: Array<string>): Promise<Array<number>> {
+    if (!cities) {
+      return null
+    }
+
+    const list = Promise.all(
+      cities.map(city => {
+        return MongoHotelModel.countDocuments({ city })
+      }),
+    )
+
+    return list
+  }
+
+  async countByType(type: string): Promise<number> {
+    throw new Error("Method not implemented.")
+  }
+
   async delete(id: string): Promise<unknown> {
     const hotelFounded = await MongoHotelModel.findOne({ id })
 
