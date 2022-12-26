@@ -10,8 +10,8 @@ import { verifyAdmin, verifyToken } from "../utils"
 
 const hotelsRouter = Router()
 
-hotelsRouter.get("/", verifyToken, async (req, res) => {
-  const { statusCode, body } = await listHotelsController.handle()
+hotelsRouter.get("/", async (req, res) => {
+  const { statusCode, body } = await listHotelsController.handle(req.query)
   return res.status(statusCode).json(body)
 })
 

@@ -54,8 +54,14 @@ export class MongoHotelProvider implements IHotelsRepository {
     return deleted
   }
 
-  async find(): Promise<Hotel[]> {
-    const hotels = await MongoHotelModel.find()
+  async find(query): Promise<Hotel[]> {
+    const { min, max, featured, limit } = query
+
+    const hotels = await MongoHotelModel.find({
+      featured,
+      cheapestPrice: { $gt: min | 1, $lt: max + 1 || 9999 },
+    }).limit(limit)
+
     const hotelsList = []
 
     hotels.map(hotel => {
