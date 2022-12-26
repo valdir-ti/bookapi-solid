@@ -15,5 +15,5 @@ export interface IHotelsRepository {
 
   countByCityName(cities: Array<string>): Promise<Array<number>>
 
-  countByType(type: string): Promise<number>
+  countByType(): Promise<Array<object>>
 }
