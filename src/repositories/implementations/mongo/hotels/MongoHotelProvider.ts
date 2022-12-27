@@ -55,12 +55,19 @@ export class MongoHotelProvider implements IHotelsRepository {
   }
 
   async find(query): Promise<Hotel[]> {
-    const { min, max, limit, ...rest } = query
+    const { min, max, limit, city, ...rest } = query
 
-    const hotels = await MongoHotelModel.find({
-      ...rest,
-      cheapestPrice: { $gt: min | 1, $lte: max || 9999 },
-    }).limit(limit)
+    let hotels
+    if (city && city !== "") {
+      hotels = await MongoHotelModel.find({
+        city: { $regex: city, $options: "i" },
+      })
+    } else {
+      hotels = await MongoHotelModel.find({
+        ...rest,
+        cheapestPrice: { $gte: min || 1, $lte: max || 9999 },
+      }).limit(limit)
+    }
 
     const hotelsList = []
 
