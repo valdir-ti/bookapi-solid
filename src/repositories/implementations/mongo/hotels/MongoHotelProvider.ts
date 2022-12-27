@@ -59,7 +59,7 @@ export class MongoHotelProvider implements IHotelsRepository {
 
     const hotels = await MongoHotelModel.find({
       ...rest,
-      cheapestPrice: { $gt: min | 1, $lt: max + 1 || 9999 },
+      cheapestPrice: { $gt: min | 1, $lte: max || 9999 },
     }).limit(limit)
 
     const hotelsList = []
