@@ -25,7 +25,7 @@ hotelsRouter.get("/countByType", async (req, res) => {
   return res.status(statusCode).json(body)
 })
 
-hotelsRouter.get("/:id", verifyToken, async (req, res) => {
+hotelsRouter.get("/:id", async (req, res) => {
   const { statusCode, body } = await getHotelController.handle(req)
   return res.status(statusCode).json(body)
 })
