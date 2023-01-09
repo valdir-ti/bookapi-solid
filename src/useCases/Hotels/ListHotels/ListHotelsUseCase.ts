@@ -2,8 +2,8 @@ import { IHotelsRepository } from "../../../repositories/implementations/IHotelR
 
 export class ListHotelsUseCase {
   constructor(private hotelsRepository: IHotelsRepository) {}
-  execute() {
-    const hotels = this.hotelsRepository.find()
+  execute(query: any) {
+    const hotels = this.hotelsRepository.find(query)
     return hotels
   }
 }

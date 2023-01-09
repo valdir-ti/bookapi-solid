@@ -18,8 +18,22 @@ export class MongoHotelProvider implements IHotelsRepository {
     return list
   }
 
-  async countByType(type: string): Promise<number> {
-    throw new Error("Method not implemented.")
+  async countByType(): Promise<Array<object>> {
+    const hotelCount = await MongoHotelModel.countDocuments({ type: "hotel" })
+    const apartmentCount = await MongoHotelModel.countDocuments({
+      type: "apartment",
+    })
+    const resortCount = await MongoHotelModel.countDocuments({ type: "resort" })
+    const villaCount = await MongoHotelModel.countDocuments({ type: "villa" })
+    const cabinCount = await MongoHotelModel.countDocuments({ type: "cabin" })
+
+    return [
+      { type: "hotel", total: hotelCount },
+      { type: "apartment", total: apartmentCount },
+      { type: "resort", total: resortCount },
+      { type: "villa", total: villaCount },
+      { type: "cabin", total: cabinCount },
+    ]
   }
 
   async delete(id: string): Promise<unknown> {
@@ -40,8 +54,21 @@ export class MongoHotelProvider implements IHotelsRepository {
     return deleted
   }
 
-  async find(): Promise<Hotel[]> {
-    const hotels = await MongoHotelModel.find()
+  async find(query): Promise<Hotel[]> {
+    const { min, max, limit, city, ...rest } = query
+
+    let hotels
+    if (city && city !== "") {
+      hotels = await MongoHotelModel.find({
+        city: { $regex: city, $options: "i" },
+      })
+    } else {
+      hotels = await MongoHotelModel.find({
+        ...rest,
+        cheapestPrice: { $gte: min || 1, $lte: max || 9999 },
+      }).limit(limit)
+    }
+
     const hotelsList = []
 
     hotels.map(hotel => {

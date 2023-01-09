@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "restore": "yarn cache clean --force  && rm -rf node_modules && rm -rf yarn.lock && yarn install",
     "test": "jest --passWithNoTests",
-    "test:watch": "yarn test --watch"
+    "test:watch": "yarn test --watch --coverage"
   },
   "keywords": [],
   "author": "",

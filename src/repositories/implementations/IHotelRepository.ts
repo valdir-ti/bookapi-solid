@@ -5,7 +5,7 @@ export interface IHotelsRepository {
 
   findOneAndUpdate(hotelId: string, roomSavedId: string): Promise<unknown>
 
-  find(): Promise<Hotel[]>
+  find(query: any): Promise<Hotel[]>
 
   delete(id: string): Promise<unknown>
 
@@ -15,5 +15,5 @@ export interface IHotelsRepository {
 
   countByCityName(cities: Array<string>): Promise<Array<number>>
 
-  countByType(type: string): Promise<number>
+  countByType(): Promise<Array<object>>
 }
